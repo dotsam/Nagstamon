@@ -85,6 +85,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Switch to universal python 3
+        run: |
+          source ~/utils/utils.sh
+          brew uninstall python@3.9
+          download_with_retries "https://www.python.org/ftp/python/3.9.6/python-3.9.6-macosx10.9.pkg" "/tmp" "python3.pkg"
+          sudo installer -pkg /tmp/python3.pkg -target /
+          bash -c "/Applications/Python\ 3.9/Install\ Certificates.command"
       - run: pip3 install --no-warn-script-location -r build/requirements/macos.txt
       - run: cd ${{ github.workspace }}/build; python3 build.py
         env:
