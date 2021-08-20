@@ -89,7 +89,7 @@ jobs:
         run: |
           source ~/utils/utils.sh
           brew uninstall python@3.9
-          download_with_retries "https://www.python.org/ftp/python/3.9.6/python-3.9.6-macosx10.9.pkg" "/tmp" "python3.pkg"
+          curl https://www.python.org/ftp/python/3.9.6/python-3.9.6-macosx10.9.pkg -4 -sL -o '/tmp/python3.pkg'
           sudo installer -pkg /tmp/python3.pkg -target /
           bash -c "/Applications/Python\ 3.9/Install\ Certificates.command"
       - run: pip3 install --no-warn-script-location -r build/requirements/macos.txt
