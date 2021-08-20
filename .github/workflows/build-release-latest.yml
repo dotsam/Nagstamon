@@ -90,7 +90,13 @@ jobs:
           brew uninstall --ignore-dependencies python@3.9
           curl https://www.python.org/ftp/python/3.9.6/python-3.9.6-macosx10.9.pkg -4 -sL -o '/tmp/python3.pkg'
           sudo installer -pkg /tmp/python3.pkg -target /
+          bash -c "/Applications/Python\ 3.9/Update\ Shell\ Profile.command"
           bash -c "/Applications/Python\ 3.9/Install\ Certificates.command"
+          pip install --upgrade pip
+     - run: |
+         echo $PATH
+         python --version
+         which python
       - run: pip3 install --no-warn-script-location -r build/requirements/macos.txt
       - run: cd ${{ github.workspace }}/build; python3 build.py
         env:
