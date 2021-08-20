@@ -88,18 +88,15 @@ jobs:
       - name: Switch to universal python 3
         run: |
           brew uninstall --ignore-dependencies python@3.9
-          curl https://www.python.org/ftp/python/3.9.6/python-3.9.6-macosx10.9.pkg -4 -sL -o '/tmp/python3.pkg'
+          curl https://www.python.org/ftp/python/3.9.6/python-3.9.6-macos11.pkg -4 -sL -o '/tmp/python3.pkg'
           sudo installer -pkg /tmp/python3.pkg -target /
           bash -c "/Applications/Python\ 3.9/Install\ Certificates.command"
           echo 'export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin:$PATH"' >> "${HOME}/.bashrc"
           pip3 install --upgrade pip
-      - run: |
-          export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin:$PATH"
-          echo $PATH
-          python3 --version
-          which python3
-      - run: pip3 install --no-warn-script-location -r build/requirements/macos.txt
-      - run: |
+      - name: Install python requirements
+        run: pip3 install --no-warn-script-location -r build/requirements/macos.txt
+      - name: Build
+        run: |
           export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin:$PATH"
           cd ${{ github.workspace }}/build; python3 build.py
         env:
